@@ -1,6 +1,6 @@
 [project]
 name = "litelama"
-version = "0.1.2"
+version = "0.1.4"
 description = "A lightweight LAMA model inference wrapper"
 authors = [
     { name = "novita", email = "novitalabs@gmail.com" }
@@ -13,7 +13,6 @@ dependencies = [
     "kornia>=0.7.0",
     "pillow>=10.0.1",
     "opencv-python>=4.8.0.76",
-    "pytorch-lightning>=2.0.9",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

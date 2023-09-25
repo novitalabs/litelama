@@ -11,8 +11,6 @@ from .ffc import FFCResNetGenerator
 from .pix2pixhd import GlobalGenerator, MultiDilatedGlobalGenerator, \
     NLayerDiscriminator, MultidilatedNLayerDiscriminator
 
-from pytorch_lightning import LightningModule
-
 import logging
 
 PROJECT_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".")
@@ -81,7 +79,7 @@ def make_multiscale_noise(base_tensor, scales=6, scale_mode='bilinear'):
     return torch.cat(result, dim=1)
 
 
-class DefaultInpaintingTrainingModule(LightningModule):
+class DefaultInpaintingTrainingModule(nn.Module):
     def __init__(self, config, concat_mask=True):
         super().__init__()
 

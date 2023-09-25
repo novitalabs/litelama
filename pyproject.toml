@@ -1,0 +1,35 @@
+[project]
+name = "litelama"
+version = "0.1.2"
+description = "A lightweight LAMA model inference wrapper"
+authors = [
+    { name = "novita", email = "novitalabs@gmail.com" }
+]
+dependencies = [
+    "torch>=2.0.1",
+    "numpy>=1.24.4",
+    "requests>=2.31.0",
+    "omegaconf>=2.3.0",
+    "kornia>=0.7.0",
+    "pillow>=10.0.1",
+    "opencv-python>=4.8.0.76",
+    "pytorch-lightning>=2.0.9",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "jupyterlab>=4.0.6",
+    "twine>=4.0.2",
+    "build>=1.0.3",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+

@@ -16,7 +16,7 @@ class LiteLama:
         if self._model is not None:
             raise RuntimeError("Model is already loaded")
 
-        self._model = load_model(self._checkpoint_path, self._config_path)
+        self._model = load_model(config_path=self._config_path, checkpoint_path=self._checkpoint_path)
         self._model.eval()
         self._model.to(location)
 
@@ -50,13 +50,13 @@ class LiteLama:
         mask = (mask > 0) * 1
 
         with torch.no_grad():
-          image = torch.from_numpy(image).unsqueeze(0).to(self._model.device)
-          mask = torch.from_numpy(mask).unsqueeze(0).to(self._model.device)
+            image = torch.from_numpy(image).unsqueeze(0).to(self._model.device)
+            mask = torch.from_numpy(mask).unsqueeze(0).to(self._model.device)
 
-          res = self._model({
-              "image": image,
-              "mask": mask
-          })
+            res = self._model({
+                "image": image,
+                "mask": mask
+            })
 
         inpainted_image = res["inpainted"]
         cur_res = inpainted_image[0].permute(1, 2, 0).detach().cpu().numpy()

@@ -38,6 +38,7 @@ packaging==23.1
 pillow==10.0.1
 pyyaml==6.0.1
 requests==2.31.0
+safetensors==0.3.3
 sympy==1.12
 torch==2.0.1
 triton==2.0.0

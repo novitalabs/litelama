@@ -15,6 +15,7 @@ mask_url = "https://raw.githubusercontent.com/CompVis/latent-diffusion/main/data
 
 
 lama = LiteLama()
+lama.load(use_safetensors=True)
 lama.to("cuda:0")
 init_image = download_image(img_url).resize((512, 512))
 mask_image = download_image(mask_url).resize((512, 512))

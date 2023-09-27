@@ -118,6 +118,7 @@ rfc3986==2.0.0
 rfc3986-validator==0.1.1
 rich==13.5.3
 rpds-py==0.10.3
+safetensors==0.3.3
 secretstorage==3.3.3
 send2trash==1.8.2
 six==1.16.0

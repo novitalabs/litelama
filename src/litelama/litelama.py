@@ -12,11 +12,11 @@ class LiteLama:
         self._config_path = config_path
         self._model = None
 
-    def load(self, location="cuda"):
+    def load(self, location="cuda", use_safetensors=True):
         if self._model is not None:
             raise RuntimeError("Model is already loaded")
 
-        self._model = load_model(config_path=self._config_path, checkpoint_path=self._checkpoint_path)
+        self._model = load_model(config_path=self._config_path, checkpoint_path=self._checkpoint_path, use_safetensors=use_safetensors)
         self._model.eval()
         self._model.to(location)
 

@@ -1,4 +1,3 @@
-
 import requests
 import torch
 import torch.nn.functional as F
@@ -32,7 +31,7 @@ def download_file(url, path):
             raise e
 
 
-def load_model(config_path: str = None, checkpoint_path: str = None):
+def load_model(config_path: str = None, checkpoint_path: str = None, use_safetensors: bool = True):
     if config_path is None:
         config_path = os.path.join(PROJECT_PATH, "config.yaml")
 
@@ -40,15 +39,31 @@ def load_model(config_path: str = None, checkpoint_path: str = None):
         home = Path.home()
         tmp_ = home.joinpath(".cache/litelama")
         tmp_.mkdir(parents=True, exist_ok=True)
-        checkpoint_path = str(tmp_.joinpath("big-lama.ckpt"))
+        if use_safetensors:
+            import safetensors
+            checkpoint_path = str(tmp_.joinpath("big-lama.safetensors"))
+        else:
+            checkpoint_path = str(tmp_.joinpath("big-lama.ckpt"))
+
         if not os.path.exists(checkpoint_path):
-            download_file("https://huggingface.co/anyisalin/big-lama/resolve/main/big-lama.ckpt", checkpoint_path)
+            if use_safetensors:
+                download_file("https://huggingface.co/anyisalin/big-lama/resolve/main/big-lama.safetensors", checkpoint_path)
+            else:
+                download_file("https://huggingface.co/anyisalin/big-lama/resolve/main/big-lama.ckpt", checkpoint_path)
 
     with open(config_path, "r") as f:
         config = OmegaConf.create(yaml.safe_load(f))
 
     model = DefaultInpaintingTrainingModule(config)
-    model.load_state_dict(torch.load(checkpoint_path)["state_dict"], strict=False)
+    if use_safetensors:
+        state_dict = {}
+        with safetensors.safe_open(checkpoint_path, framework="pt" , device="cpu") as f:
+            for k in f.keys():
+                state_dict[k] = f.get_tensor(k)
+    else:
+        state_dict = torch.load(checkpoint_path, map_location="cpu")["state_dict"]
+
+    model.load_state_dict(state_dict=state_dict, strict=False)
     return model
 
 

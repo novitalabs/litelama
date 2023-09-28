@@ -9,6 +9,7 @@ import os
 from .ffc import FFCResNetGenerator
 from .pix2pixhd import GlobalGenerator, MultiDilatedGlobalGenerator, \
     NLayerDiscriminator, MultidilatedNLayerDiscriminator
+import safetensors
 
 import logging
 
@@ -40,7 +41,6 @@ def load_model(config_path: str = None, checkpoint_path: str = None, use_safeten
         tmp_ = home.joinpath(".cache/litelama")
         tmp_.mkdir(parents=True, exist_ok=True)
         if use_safetensors:
-            import safetensors
             checkpoint_path = str(tmp_.joinpath("big-lama.safetensors"))
         else:
             checkpoint_path = str(tmp_.joinpath("big-lama.ckpt"))
@@ -57,7 +57,7 @@ def load_model(config_path: str = None, checkpoint_path: str = None, use_safeten
     model = DefaultInpaintingTrainingModule(config)
     if use_safetensors:
         state_dict = {}
-        with safetensors.safe_open(checkpoint_path, framework="pt" , device="cpu") as f:
+        with safetensors.safe_open(checkpoint_path, framework="pt", device="cpu") as f:
             for k in f.keys():
                 state_dict[k] = f.get_tensor(k)
     else:

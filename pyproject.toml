@@ -1,6 +1,6 @@
 [project]
 name = "litelama"
-version = "0.1.6"
+version = "0.1.7"
 description = "A lightweight LAMA model inference wrapper"
 authors = [
     { name = "novita", email = "novitalabs@gmail.com" }
